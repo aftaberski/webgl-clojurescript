@@ -1,5 +1,6 @@
 (ns webgl-clojurescript.core
-  (:require [thi.ng.geom.gl.core :as gl]
+  (:require [thi.ng.geom.gl.webgl.animator :as anim]
+            [thi.ng.geom.gl.core :as gl]
             [thi.ng.geom.matrix :as mat]
             [thi.ng.geom.core :as geom]
             [thi.ng.geom.gl.webgl.constants :as glc]
@@ -14,10 +15,7 @@
 
 (defonce camera (cam/perspective-camera {}))
 
-(println camera)
-
-(doto gl-ctx
-  (gl/clear-color-and-depth-buffer 0 0 0 1 1))
+(defonce red (atom 0))
 
 (def shader-spec
   {:vs "void main() {
@@ -41,6 +39,8 @@
       (gl/make-buffers-in-spec gl-ctx glc/static-draw)
       (cam/apply camera)))
 
-(doto gl-ctx
-  (gl/clear-color-and-depth-buffer 0 0 0 1 1)
-  (gl/draw-with-shader (combine-model-shader-and-camera triangle shader-spec camera)))
+(anim/animate
+ (fn [t]
+   (doto gl-ctx
+     (gl/clear-color-and-depth-buffer (swap! red #(mod (+ % 0.1) 1)) 0 0 1 1)
+     (gl/draw-with-shader (combine-model-shader-and-camera triangle shader-spec camera)))))
