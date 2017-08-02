@@ -9,7 +9,8 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.854"]
                  [org.clojure/core.async  "0.3.443"
-                  :exclusions [org.clojure/tools.reader]]]
+                  :exclusions [org.clojure/tools.reader]]
+                 [thi.ng/geom "0.0.1178-SNAPSHOT"]]
 
   :plugins [[lein-figwheel "0.5.12"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
